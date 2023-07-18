@@ -12,7 +12,7 @@ const Winner = ({ name, surname, score, isJackpot, date }) => {
 			<img className={winnerCSS.img} src="./img/player.png" alt="player" />
 			<span className={winnerCSS.span}>{name} {surname}</span>
 			{winnerImg}
-			<span className={winnerCSS.span}>{date}</span>
+			<span className={winnerCSS.span}><em>{date}</em></span>
 		</div>
 	)
 }

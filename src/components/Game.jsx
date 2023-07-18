@@ -1,19 +1,33 @@
 import React from 'react'
 import gameCSS from '../css/game.module.css'
+import Wheel from './Game/Wheel';
 
 const Game = () => {
 
-	const startSpin = () => {
-		console.log('TODO attach plugin')
+
+	// -------------------------------------------------------
+	// Click handler for spin button.
+	// -------------------------------------------------------
+	function startSpin() {
+		// Ensure that spinning can't be clicked again while already running.
+		// if (!wheelSpinning) {
+
+			console.log('TODO: attach button to spinner component')
+			// // Begin the spin animation by calling startAnimation on the wheel object.
+			// theWheel.startAnimation();
+
+			// // Set to true so that power can't be changed and spin button re-enabled during
+			// // the current animation. The user will have to reset before spinning again.
+			// wheelSpinning = true;
+		// }
 	}
+
 
 	return (
 		<div className="row game">
 			<div className="col-6">
 				<div className={gameCSS.wrapper + ' float-end'}>
-					<canvas id="canvas" width="434" height="434">
-						<p align="center">Sorry, your browser doesn't support canvas</p>
-					</canvas>
+					<Wheel />
 					<img className={gameCSS.picker} src="./img/picker.png" alt="V" />
 				</div>
 			</div>

@@ -1,19 +1,60 @@
 import React from 'react'
 import Winner from './Winners/Winner'
 import winnerCSS from '../css/winners.module.css';
+import doAPIRequest from '../utils/doAPIRequest';
+import LoadSpinner from './Winners/LoadSpinner';
 
 const Winners = () => {
-	return (
-		<div className="row">
-			<div className={'col-md-12 ' + winnerCSS.wrapper}>
-				<h1 className={winnerCSS.h1}>Winners</h1>
-				<Winner name={'name'} surname={'surname'} score={999} isJackpot={false} date={'date'} />
-				<Winner name={'name'} surname={'surname'} score={999} isJackpot={false} date={'date'} />
-				<Winner name={'name'} surname={'surname'} score={999} isJackpot={true} date={'date'} />
-				<Winner name={'name'} surname={'surname'} score={999} isJackpot={false} date={'date'} />
+
+	const formatDate = (dateString) => {
+		// DD.MM.YYYY from ISODate
+		dateString = dateString.split('T')[0];
+		dateString = dateString.split('-').reverse().join('.');
+		return dateString;
+	}
+
+	const [loading, setLoading] = React.useState(true);
+	const [winners, setWinners] = React.useState(null);
+
+	React.useEffect(() => {
+		const getWinners = async () => {
+			const winnersList = await doAPIRequest('/winners');
+			setWinners(winnersList);
+			setLoading(false);
+		}
+		getWinners();
+	}, []);
+
+	if (loading) {
+		return (
+			<div className="row">
+				<div className={'col-md-12 ' + winnerCSS.wrapper}>
+					<h1 className={winnerCSS.h1}>Winners</h1>
+					<LoadSpinner />
+				</div>
 			</div>
-		</div>
-	)
+		)
+	} else {
+		return (
+			<div className="row">
+				<div className={'col-md-12 ' + winnerCSS.wrapper}>
+					<h1 className={winnerCSS.h1}>Winners</h1>
+					{winners.map(winner => (
+						<Winner
+							key={winner.id}
+							name={winner.first_name}
+							surname={winner.last_name}
+							score={winner.score}
+							isJackpot={Boolean(winner.is_jackpot)}
+							date={formatDate(winner.win_date)}
+						/>
+					))}
+				</div>
+			</div>
+		)
+	}
+
+
 }
 
 export default Winners
