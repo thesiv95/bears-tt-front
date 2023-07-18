@@ -1,9 +1,24 @@
 import React from 'react'
 import gameCSS from '../css/game.module.css'
+import doAPIRequest from '../utils/doAPIRequest';
 import Wheel from './Game/Wheel';
 
 const Game = () => {
 
+
+	const [jackpot, setJackpot] = React.useState(0);
+	const [balance, setBalance] = React.useState(0);
+
+	React.useEffect(() => {
+		const getJackpot = async () => {
+			const { randomJackpot } = await doAPIRequest('/winners/jackpot');
+			setJackpot(randomJackpot);
+			// put this into local storage to be able to use this value in case user gets jackpot
+			localStorage.setItem('bears_jackpot', randomJackpot);
+			
+		}
+		getJackpot();
+	}, []);
 
 	// -------------------------------------------------------
 	// Click handler for spin button.
@@ -13,6 +28,7 @@ const Game = () => {
 		// if (!wheelSpinning) {
 
 			console.log('TODO: attach button to spinner component')
+			setBalance(balance + 123);
 			// // Begin the spin animation by calling startAnimation on the wheel object.
 			// theWheel.startAnimation();
 
@@ -35,11 +51,11 @@ const Game = () => {
 				<div className={gameCSS.controls + ' float-start'}>
 					<div className={gameCSS.controlsItem}>
 						<p>Jackpot</p>
-						<p>1000</p>
+						<p>{jackpot}</p>
 					</div>
 					<div className={gameCSS.controlsItem}>
 						<p>Balance</p>
-						<p>100</p>
+						<p>{balance}</p>
 					</div>
 					<button className={gameCSS.controlsButton} onClick={startSpin}>
 						<p>Spin</p>
