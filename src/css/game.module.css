@@ -1,0 +1,63 @@
+.wrapper {
+	background: rgb(46,145,218);
+    background: linear-gradient(90deg, rgba(46,145,218,1) 0%, rgba(52,150,223,1) 50%, rgba(29,130,206,1) 100%);
+    margin-left: 20px;
+    margin-bottom: 10px;
+    border: 1px solid #3992da;
+    border-radius: 15px;
+    width: 450px;
+    height: 435px;
+    text-align: center;
+	position: relative;
+}
+
+#canvas {
+    z-index: 1;
+}
+
+.picker {
+	position: absolute;
+    left: 209px;
+    z-index: 999;
+}
+
+.controls {
+	display: flex;
+	flex-direction: column;
+}
+
+.controlsItem {
+	width: 310px;
+	height: 135px;
+	border: 5px solid #e7981b;
+	border-radius: 15px;
+	margin-bottom: 10px;
+	background: rgb(55, 87, 171);
+	background: linear-gradient(90deg, rgba(55, 87, 171, 1) 0%,
+	rgba(65, 104, 186, 1) 18%, rgba(65, 104, 185, 1) 61%, rgba(74, 119, 197, 1) 100%);
+}
+
+.controlsButton {
+	cursor: pointer;
+	width: 310px;
+	height: 135px;
+	border: 5px solid #e7981b;
+	border-radius: 15px;
+	margin-bottom: 5px;
+	background: rgb(149,0,0);
+	background: linear-gradient(90deg, rgba(149,0,0,1) 0%, rgba(170,1,1,1) 50%, rgba(188,0,0,1) 100%);
+	box-shadow: 0px 8px 0px rgb(149,0,0);
+}
+
+.controlsItem>p, .controlsButton>p {
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-family: 'Lilita One', cursive;
+	font-size: 32px;
+	color: #e7981b;
+}
+
+.controlsItem>p:first-child, .controlsButton>p:first-child {
+	margin-top: 8px;
+}
