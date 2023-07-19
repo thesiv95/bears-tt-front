@@ -61,3 +61,13 @@
 .controlsItem>p:first-child, .controlsButton>p:first-child {
 	margin-top: 8px;
 }
+
+@media (max-width: 950px) {
+	.wrapper {
+		width: 340px;
+	}
+	
+	#canvas {
+		display: none;
+	}
+}

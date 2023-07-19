@@ -34,3 +34,15 @@
 	padding: 25px 15px;
 	box-shadow: 1px 2px 2px gray rgba(0, 0, 0, 0.2);;
 }
+
+@media (min-width: 1360px) {
+	.wrapper {
+		width: 49%;
+	}
+}
+
+@media (min-width: 950px) {
+	.wrapper {
+		width: 49%;
+	}
+}
