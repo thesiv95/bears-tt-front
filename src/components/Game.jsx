@@ -5,7 +5,6 @@ import Winwheel from 'winwheel';
 import wheelParams from '../utils/wheelParams';
 
 const Game = () => {
-	const [wheelSpinning, setWheelSpinning] = React.useState(false);
 	const [jackpot, setJackpot] = React.useState(0);
 	const [balance, setBalance] = React.useState(0);
 
