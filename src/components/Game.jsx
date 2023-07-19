@@ -1,6 +1,5 @@
 import React from 'react'
-import { TweenMax } from 'gsap'
-import gameCSS from '../css/game.module.css'
+import gameCSS from '../css/game.module.css';
 import doAPIRequest from '../utils/doAPIRequest';
 import Winwheel from 'winwheel';
 import wheelParams from '../utils/wheelParams';
