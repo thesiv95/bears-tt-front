@@ -39,9 +39,9 @@ const Winners = () => {
 			<div className="row">
 				<div className={'col-md-12 ' + winnerCSS.wrapper}>
 					<h1 className={winnerCSS.h1}>Winners</h1>
-					{winners.map(winner => (
+					{winners.map((winner,index) => (
 						<Winner
-							key={winner.id}
+							key={index}
 							name={winner.first_name}
 							surname={winner.last_name}
 							score={winner.score}

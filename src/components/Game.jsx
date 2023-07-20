@@ -1,41 +1,33 @@
 import React from 'react'
 import gameCSS from '../css/game.module.css';
 import doAPIRequest from '../utils/doAPIRequest';
-import Winwheel from 'winwheel';
-import wheelParams from '../utils/wheelParams';
+import WheelComponent from './Game/WheelComponent';
+
+import { segments, segColors } from './Game/wheelData';
+import ModalFinish from './Game/ModalFinish';
 
 const Game = () => {
 	const [jackpot, setJackpot] = React.useState(0);
 	const [balance, setBalance] = React.useState(0);
+	const [modal, setModal] = React.useState(false);
 
-	const finishHandler = async (indicatedSegment) => {
-		let finalScore = 0;
-		if (indicatedSegment.text === 'JACKPOT') {
-			finalScore = jackpot;
+	const modalFinishCloseHandler = () => setModal(false);
+
+	const finishHandler = async (winner) => {
+		if (winner === 'JACKPOT') {
+			setBalance(balance + jackpot);
 		} else {
-			finalScore = parseInt(indicatedSegment.text);
+			setBalance(balance + parseInt(winner));
 		}
-		setBalance(balance + finalScore);
+
 		await doAPIRequest('/winners', 'post', {
 			user_id: 1, // hardcoded here but should be defined by auth
-			score: finalScore,
-			is_jackpot: indicatedSegment.text === 'JACKPOT' ? 1 : 0,
+			score: winner === 'JACKPOT' ? jackpot : parseInt(winner),
+			is_jackpot: winner === 'JACKPOT' ? 1 : 0,
 			win_date: new Date().toISOString().split('T')[0]
 		});
+		setModal(true);
 	}
-
-	// The way to connect wheel lib to react and keep it during the user session
-	const theWheel = React.useRef(
-		new Winwheel({
-			...wheelParams,
-			animation: {
-				type: 'spinToStop',
-				duration: 10, // Duration in seconds.
-				spins: 24,  // Default number of complete spins.
-				callbackFinished: finishHandler
-			},
-			
-		}));
 
 	React.useEffect(() => {
 		const getJackpot = async () => {
@@ -43,22 +35,27 @@ const Game = () => {
 			setJackpot(randomJackpot);
 		}
 		getJackpot();
-		theWheel.current.draw();
 	}, []);
-
-	// Click handler for spin button
-	function startSpin() {
-		theWheel.current.startAnimation();
-	}
 
 	return (
 		<div className="row game">
 			<div className="col-6">
 				<div className={gameCSS.wrapper + ' float-end'}>
-					<canvas id="canvas" width="434" height="434">
-						<p align="center">Sorry, your browser doesn't support canvas</p>
-					</canvas>
-					<img className={gameCSS.picker} src="./img/picker.png" alt="V" />
+					<WheelComponent
+						segments={segments}
+						segColors={segColors}
+						winningSegment=""
+						onFinished={(winner) => finishHandler(winner)}
+						primaryColor="black"
+						primaryColoraround="#d8d8d9"
+						contrastColor="white"
+						buttonText="Spin"
+						fontFamily='sans-serif'
+						isOnlyOnce={false}
+						size={150}
+						upDuration={50}
+						downDuration={2000}
+					/>
 				</div>
 			</div>
 			<div className="col-6">
@@ -71,12 +68,9 @@ const Game = () => {
 						<p>Balance</p>
 						<p>{balance}</p>
 					</div>
-					<button className={gameCSS.controlsButton} onClick={startSpin}>
-						<p>Spin</p>
-						<p>wheel</p>
-					</button>
 				</div>
 			</div>
+			{modal && <ModalFinish close={modalFinishCloseHandler} balance={balance} />}
 		</div>
 	)
 }
